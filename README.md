@@ -19,6 +19,8 @@
 
 # Example
 
+[Line Demo](https://mvpleung.github.io/vue-video-player/player.html)
+
 [Demo Page](https://surmon-china.github.io/vue-video-player)
 
 [CDN Example](https://jsfiddle.net/u69gnx90/)
