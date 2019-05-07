@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0,user-scalable=no"
+    />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title></title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/video.js@7.5.4/dist/video-js.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/video.js@7.5.4/dist/video.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-video-player@5.0.2/dist/vue-video-player.min.js"></script>
+    <style>
+      #app {
+        margin-top: 10%;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        /* -webkit-box-pack: center;
+              -webkit-justify-content: center;
+              -ms-flex-pack: center;
+              justify-content: center; */
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        -webkit-box-align: center;
+        -webkit-align-items: center;
+        -ms-flex-align: center;
+        align-items: center;
+      }
+      .vjs-input {
+        width: 40%;
+        height: 40px;
+        margin: 25px;
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+        border-radius: 10px;
+        border: 1px solid grey;
+      }
+      .vjs-input input {
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+        padding: 0 10px;
+        border: none;
+        outline: none;
+        background: none;
+      }
+      .vjs-input button {
+        -webkit-box-flex: 0.1;
+        -webkit-flex: 0.1;
+        -ms-flex: 0.1;
+        flex: 0.1;
+        border: none;
+        outline: none;
+        background: none;
+        cursor: pointer;
+        border-left: 1px solid gray;
+      }
+      .vjs-input button:active {
+        color: white;
+        background-color: #717070;
+        border-radius: 0 9px 9px 0;
+      }
+      .vjs-input button:disabled {
+        cursor: not-allowed;
+      }
+      .vjs-custom-skin > .video-js .vjs-big-play-button {
+        top: 50%;
+        left: 50%;
+        margin-left: -1.5em;
+        margin-top: -1em;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="vjs-input">
+        <input v-model="url" type="text" placeholder="输入视频地址" />
+        <button @click="go" :disabled="isEmpty">Go</button>
+      </div>
+      <video-player
+        class="vjs-custom-skin"
+        ref="videoPlayer"
+        :options="playerOptions"
+        :playsinline="true"
+      >
+      </video-player>
+    </div>
+  </body>
+  <script type="text/javascript">
+    Vue.use(window.VueVideoPlayer)
+    new Vue({
+      el: '#app',
+      data: {
+        playerOptions: {
+          height: 450,
+          autoplay: false,
+          muted: true,
+          language: 'en',
+          preload: 'auto',
+          playbackRates: [0.7, 1.0, 1.5, 2.0],
+          sources: []
+        },
+        url: ''
+      },
+      methods: {
+        trim(str) {
+          return str && !(str instanceof Object)
+            ? String(str).replace(/(^\s+)|(\s+$)/g, '')
+            : str
+        },
+        go() {
+          this.playerOptions = {
+            ...this.playerOptions,
+            sources: [
+              {
+                src: this.url
+              }
+            ],
+            autoplay: true
+          }
+        }
+      },
+      computed: {
+        isEmpty() {
+          return (
+            !this.url ||
+            this.url === undefined ||
+            this.trim(this.url) === '' ||
+            this.trim(this.url) === 'null' ||
+            this.url === '' ||
+            this.url.length === 0
+          )
+        }
+      }
+    })
+  </script>
+</html>
